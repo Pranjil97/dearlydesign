@@ -20,10 +20,11 @@ type CountdownProps = {
 export function Countdown({ reducedMotion = false }: CountdownProps) {
   const { days, hours, minutes, seconds, phase } = useCountdown();
 
+  // Use mount animation (not whileInView) so Lenis smooth-scroll cannot
+  // leave the timer stuck at opacity 0.
   const entrance = (delay: number) => ({
-    initial: reducedMotion ? false : { opacity: 0, y: 28 },
-    whileInView: { opacity: 1, y: 0 },
-    viewport: { once: true, amount: 0.4 },
+    initial: reducedMotion ? false : { opacity: 0, y: 24 },
+    animate: { opacity: 1, y: 0 },
     transition: {
       duration: reducedMotion ? 0 : 0.9,
       delay: reducedMotion ? 0 : delay,

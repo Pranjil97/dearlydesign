@@ -15,6 +15,8 @@ type EventCardProps = {
   expanded: boolean;
   onToggle: () => void;
   reducedMotion?: boolean;
+  /** Skip whileInView fade — used by the mobile scroll stack. */
+  skipEntrance?: boolean;
   className?: string;
   priority?: boolean;
 };
@@ -30,9 +32,12 @@ export function EventCard({
   expanded,
   onToggle,
   reducedMotion = false,
+  skipEntrance = false,
   className,
   priority = false,
 }: EventCardProps) {
+  const disableEntrance = reducedMotion || skipEntrance;
+
   return (
     <motion.article
       layout={!reducedMotion}
@@ -40,11 +45,11 @@ export function EventCard({
         "group relative flex flex-col overflow-hidden bg-wine/40",
         className,
       )}
-      initial={reducedMotion ? false : { opacity: 0, y: 36 }}
+      initial={disableEntrance ? false : { opacity: 0, y: 36 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.25 }}
       transition={{
-        duration: reducedMotion ? 0 : 0.85,
+        duration: disableEntrance ? 0 : 0.85,
         ease: easings.cinematicOut,
       }}
     >
@@ -70,7 +75,7 @@ export function EventCard({
           >
             <Image
               src={event.image}
-              alt={`${event.title} editorial photograph placeholder`}
+              alt={`${event.title} celebration photograph`}
               fill
               sizes="(max-width: 768px) 85vw, (max-width: 1200px) 45vw, 30vw"
               className="object-cover"

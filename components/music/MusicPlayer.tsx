@@ -15,12 +15,10 @@ const EQ_BARS = [
   { delay: 0, duration: 0.42 },
   { delay: 0.12, duration: 0.55 },
   { delay: 0.04, duration: 0.38 },
-  { delay: 0.18, duration: 0.48 },
 ] as const;
 
 /**
- * Floating champagne-gold play/pause control.
- * Uses the single global audio instance from MusicProvider.
+ * Minimal floating music control — small, bottom-right, no song label.
  */
 export function MusicPlayer({ className }: MusicPlayerProps) {
   const { status, isPlaying, hasStarted, toggle } = useMusic();
@@ -39,7 +37,7 @@ export function MusicPlayer({ className }: MusicPlayerProps) {
   return (
     <div
       className={cn(
-        "pointer-events-auto fixed bottom-5 right-4 z-50 sm:bottom-8 sm:right-6",
+        "pointer-events-auto fixed bottom-3 right-3 z-50 sm:bottom-4 sm:right-4",
         className,
       )}
     >
@@ -53,27 +51,31 @@ export function MusicPlayer({ className }: MusicPlayerProps) {
         title={label}
         aria-pressed={isPlaying}
         className={cn(
-          "relative flex size-12 items-center justify-center gap-0.5 rounded-full border border-champagne/55 bg-[color-mix(in_srgb,var(--champagne)_18%,var(--burgundy))] text-champagne shadow-[0_10px_30px_rgba(0,0,0,0.35)] backdrop-blur-md transition-colors sm:size-14",
-          "hover:border-champagne hover:bg-[color-mix(in_srgb,var(--champagne)_28%,var(--wine))]",
-          "disabled:cursor-not-allowed disabled:opacity-50",
+          "relative flex size-8 items-center justify-center rounded-full border border-champagne/35 bg-burgundy/70 text-champagne/85 backdrop-blur-sm transition-colors sm:size-9",
+          "hover:border-champagne/60 hover:text-champagne",
+          "disabled:cursor-not-allowed disabled:opacity-40",
           "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-champagne",
+          "opacity-55 hover:opacity-100 focus-visible:opacity-100",
         )}
         whileTap={prefersReducedMotion ? undefined : { scale: 0.94 }}
       >
         {isPlaying && !prefersReducedMotion ? (
-          <span className="absolute inset-0 flex items-center justify-center gap-[3px]" aria-hidden>
+          <span
+            className="absolute inset-0 flex items-center justify-center gap-[2px]"
+            aria-hidden
+          >
             {EQ_BARS.map((bar, index) => (
               <motion.span
                 key={index}
-                className="w-[2.5px] rounded-full bg-champagne sm:w-[3px]"
-                animate={{ height: ["28%", "78%", "36%", "90%", "28%"] }}
+                className="w-[1.5px] rounded-full bg-champagne"
+                animate={{ height: ["22%", "70%", "30%", "85%", "22%"] }}
                 transition={{
                   duration: bar.duration,
                   delay: bar.delay,
                   repeat: Infinity,
                   ease: "easeInOut",
                 }}
-                style={{ height: "40%" }}
+                style={{ height: "35%" }}
               />
             ))}
           </span>
@@ -86,24 +88,14 @@ export function MusicPlayer({ className }: MusicPlayerProps) {
           )}
         >
           {status === "unavailable" ? (
-            <Play className="size-4 opacity-60 sm:size-5" fill="currentColor" />
+            <Play className="size-3 opacity-60" fill="currentColor" />
           ) : isPlaying ? (
-            <Pause className="size-4 sm:size-5" fill="currentColor" />
+            <Pause className="size-3" fill="currentColor" />
           ) : (
-            <Play className="size-4 sm:size-5" fill="currentColor" />
+            <Play className="size-3" fill="currentColor" />
           )}
         </span>
       </motion.button>
-
-      {status === "unavailable" ? (
-        <p className="mt-2 max-w-[7.5rem] text-right text-[0.55rem] uppercase tracking-[0.18em] text-ivory/55 sm:max-w-[9rem]">
-          {MUSIC.unavailable}
-        </p>
-      ) : (
-        <p className="mt-2 max-w-[8.5rem] truncate text-right text-[0.55rem] uppercase tracking-[0.16em] text-champagne/70 sm:max-w-[10rem]">
-          {MUSIC.title}
-        </p>
-      )}
     </div>
   );
 }

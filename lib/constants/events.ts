@@ -7,8 +7,12 @@
 import {
   getWeddingLocalIso,
   getWeddingTargetMs,
+  IMAGE_PATHS,
   WEDDING,
 } from "@/config/wedding";
+
+/** Shared festive photo for Mehendi / Haldi / Sangeet until unique shots exist. */
+const PRE_WEDDING_IMAGE = IMAGE_PATHS.galleryCelebration;
 
 /** ISO-8601 wedding datetime derived from the central config (UTC instant). */
 export const WEDDING_COUNTDOWN_DATE = new Date(
@@ -53,7 +57,7 @@ export const WEDDING_EVENTS: WeddingEvent[] = [
     venueName: "[Mehendi Venue Name]",
     venueAddress: "[Mehendi Venue Address]",
     mapsUrl: "https://www.google.com/maps/search/?api=1&query=Mehendi+Venue+Placeholder",
-    image: "/images/events/mehendi.svg",
+    image: PRE_WEDDING_IMAGE,
     aspect: "portrait",
   },
   {
@@ -68,8 +72,8 @@ export const WEDDING_EVENTS: WeddingEvent[] = [
     venueName: "[Haldi Venue Name]",
     venueAddress: "[Haldi Venue Address]",
     mapsUrl: "https://www.google.com/maps/search/?api=1&query=Haldi+Venue+Placeholder",
-    image: "/images/events/haldi.svg",
-    aspect: "landscape",
+    image: PRE_WEDDING_IMAGE,
+    aspect: "portrait",
   },
   {
     id: "sangeet",
@@ -83,8 +87,8 @@ export const WEDDING_EVENTS: WeddingEvent[] = [
     venueName: "[Sangeet Venue Name]",
     venueAddress: "[Sangeet Venue Address]",
     mapsUrl: "https://www.google.com/maps/search/?api=1&query=Sangeet+Venue+Placeholder",
-    image: "/images/events/sangeet.svg",
-    aspect: "wide",
+    image: PRE_WEDDING_IMAGE,
+    aspect: "portrait",
   },
   {
     id: "ceremony",
@@ -98,7 +102,7 @@ export const WEDDING_EVENTS: WeddingEvent[] = [
     venueName: WEDDING.venue,
     venueAddress: WEDDING.venueAddress,
     mapsUrl: `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${WEDDING.venue} ${WEDDING.location}`)}`,
-    image: "/images/events/wedding-mandap.jpg",
+    image: IMAGE_PATHS.ceremony,
     aspect: "wide",
   },
   {
@@ -113,7 +117,7 @@ export const WEDDING_EVENTS: WeddingEvent[] = [
     venueName: WEDDING.venue,
     venueAddress: WEDDING.venueAddress,
     mapsUrl: `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${WEDDING.venue} ${WEDDING.location}`)}`,
-    image: "/images/events/reception-dinner.jpg",
+    image: IMAGE_PATHS.reception,
     aspect: "landscape",
   },
 ];

@@ -1,10 +1,10 @@
 "use client";
 
-import { useCallback, useState } from "react";
+import { useCallback, useRef, useState } from "react";
 import { motion } from "motion/react";
 import { EventCard } from "@/components/events/EventCard";
 import { OrnamentalDivider } from "@/components/invitation/OrnamentalDivider";
-import { easings } from "@/lib/animations";
+import { easings, gsap, registerGsap, useGSAP } from "@/lib/animations";
 import {
   CELEBRATIONS_COPY,
   WEDDING_EVENTS,
@@ -27,13 +27,94 @@ const desktopPlacement: Record<WeddingEventId, string> = {
 
 export function Celebrations({ reducedMotion = false }: CelebrationsProps) {
   const [expandedId, setExpandedId] = useState<WeddingEventId | null>(null);
+  const sectionRef = useRef<HTMLElement>(null);
+  const stackRef = useRef<HTMLDivElement>(null);
 
   const handleToggle = useCallback((id: WeddingEventId) => {
     setExpandedId((current) => (current === id ? null : id));
   }, []);
 
+  useGSAP(
+    () => {
+      registerGsap();
+      if (reducedMotion || !sectionRef.current || !stackRef.current) return;
+
+      const section = sectionRef.current;
+      const cards = gsap.utils.toArray<HTMLElement>(
+        stackRef.current.querySelectorAll("[data-event-stack-card]"),
+      );
+      if (cards.length < 2) return;
+
+      const mm = gsap.matchMedia();
+
+      mm.add(
+        "(max-width: 767px) and (prefers-reduced-motion: no-preference)",
+        () => {
+          gsap.set(cards, {
+            position: "absolute",
+            inset: 0,
+            width: "100%",
+          });
+          gsap.set(cards[0], { autoAlpha: 1, y: 0, scale: 1, zIndex: cards.length });
+          cards.slice(1).forEach((card, index) => {
+            gsap.set(card, {
+              autoAlpha: 0,
+              y: 56,
+              scale: 0.94,
+              zIndex: cards.length - index - 1,
+            });
+          });
+
+          const tl = gsap.timeline({
+            scrollTrigger: {
+              trigger: section,
+              start: "top top",
+              end: () => `+=${cards.length * window.innerHeight * 0.72}`,
+              pin: true,
+              scrub: 0.65,
+              anticipatePin: 1,
+              invalidateOnRefresh: true,
+            },
+          });
+
+          cards.forEach((card, index) => {
+            if (index === cards.length - 1) return;
+            const next = cards[index + 1];
+            const step = index;
+
+            tl.to(
+              card,
+              {
+                autoAlpha: 0,
+                y: -36,
+                scale: 0.9,
+                duration: 1,
+                ease: "none",
+              },
+              step,
+            ).to(
+              next,
+              {
+                autoAlpha: 1,
+                y: 0,
+                scale: 1,
+                duration: 1,
+                ease: "none",
+              },
+              step,
+            );
+          });
+        },
+      );
+
+      return () => mm.revert();
+    },
+    { scope: sectionRef, dependencies: [reducedMotion] },
+  );
+
   return (
     <section
+      ref={sectionRef}
       id="events"
       className="relative overflow-hidden bg-burgundy px-5 py-24 sm:px-8 sm:py-32 lg:px-10 lg:py-40"
       aria-label="Wedding celebrations"
@@ -47,7 +128,7 @@ export function Celebrations({ reducedMotion = false }: CelebrationsProps) {
         }}
       />
 
-      <div className="relative mx-auto mb-12 max-w-3xl text-center sm:mb-16 lg:mb-20">
+      <div className="relative mx-auto mb-10 max-w-3xl text-center sm:mb-16 lg:mb-20">
         <motion.p
           className="text-[0.65rem] font-medium uppercase tracking-[0.34em] text-champagne sm:text-xs"
           initial={reducedMotion ? false : { opacity: 0, y: 16 }}
@@ -107,15 +188,49 @@ export function Celebrations({ reducedMotion = false }: CelebrationsProps) {
         ))}
       </div>
 
-      {/* Mobile / small tablet: touch-friendly horizontal carousel */}
-      <div className="relative max-w-[100vw] overflow-x-hidden md:hidden">
+      {/* Mobile: vertical scroll stack — one card forward, previous slips back */}
+      {!reducedMotion ? (
+        <div className="relative md:hidden">
+          <div
+            ref={stackRef}
+            className="relative mx-auto h-[min(72dvh,34rem)] w-full max-w-[22rem]"
+          >
+            {WEDDING_EVENTS.map((event, index) => (
+              <div
+                key={event.id}
+                data-event-stack-card
+                className="will-change-transform"
+              >
+                <EventCard
+                  event={event}
+                  expanded={expandedId === event.id}
+                  onToggle={() => handleToggle(event.id)}
+                  reducedMotion={reducedMotion}
+                  skipEntrance
+                  priority={index === 0}
+                />
+              </div>
+            ))}
+          </div>
+          <p className="mt-6 text-center text-[0.58rem] uppercase tracking-[0.28em] text-champagne/55">
+            Scroll to reveal each celebration
+          </p>
+        </div>
+      ) : null}
+
+      {/* Mobile fallback / reduced-motion: horizontal swipe */}
+      <div
+        className={cn(
+          "relative max-w-[100vw] overflow-x-hidden",
+          reducedMotion ? "md:hidden" : "hidden",
+        )}
+      >
         <div className="flex snap-x snap-mandatory gap-5 overflow-x-auto overflow-y-hidden overscroll-x-contain px-1 pb-4 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           {WEDDING_EVENTS.map((event, index) => (
             <div
               key={event.id}
               className={cn(
                 "w-[82vw] max-w-[22rem] shrink-0 snap-center",
-                index === 0 && "ml-0",
                 index === WEDDING_EVENTS.length - 1 && "mr-1",
               )}
             >
@@ -129,6 +244,9 @@ export function Celebrations({ reducedMotion = false }: CelebrationsProps) {
             </div>
           ))}
         </div>
+        <p className="mt-3 text-center text-[0.58rem] uppercase tracking-[0.28em] text-champagne/55">
+          Swipe for more celebrations
+        </p>
       </div>
     </section>
   );
