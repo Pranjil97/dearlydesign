@@ -1,0 +1,20 @@
+﻿<svg xmlns="http://www.w3.org/2000/svg" width="1920" height="1080" viewBox="0 0 1920 1080" role="img" aria-label="THE BEGINNING placeholder">
+  <defs>
+    <linearGradient id="g" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#3A1422"/>
+      <stop offset="50%" stop-color="#260D16"/>
+      <stop offset="100%" stop-color="#14060C"/>
+    </linearGradient>
+    <radialGradient id="r" cx="50%" cy="40%" r="55%">
+      <stop offset="0%" stop-color="#D6B77A" stop-opacity="0.18"/>
+      <stop offset="100%" stop-color="#D6B77A" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="1920" height="1080" fill="url(#g)"/>
+  <rect width="1920" height="1080" fill="url(#r)"/>
+  <rect x="40" y="40" width="1840" height="1000" fill="none" stroke="#D6B77A" stroke-opacity="0.3"/>
+  <g fill="#F5EBDD" fill-opacity="0.7" text-anchor="middle" font-family="Georgia, serif">
+    <text x="960" y="530" font-size="28" letter-spacing="6">THE BEGINNING</text>
+    <text x="960" y="568" font-size="16" letter-spacing="2" fill-opacity="0.5">Replace with /images/story/beginning-bg</text>
+  </g>
+</svg>

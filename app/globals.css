@@ -1,26 +1,127 @@
 @import "tailwindcss";
+@import "lenis/dist/lenis.css";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Brand palette */
+  --burgundy: #260d16;
+  --wine: #3a1422;
+  --champagne: #d6b77a;
+  --ivory: #f5ebdd;
+
+  /* Semantic tokens */
+  --background: var(--burgundy);
+  --background-elevated: var(--wine);
+  --foreground: var(--ivory);
+  --accent: var(--champagne);
+  --accent-muted: color-mix(in srgb, var(--champagne) 55%, transparent);
+  --border-gold: color-mix(in srgb, var(--champagne) 40%, transparent);
+  --overlay: color-mix(in srgb, var(--burgundy) 55%, transparent);
+
+  /* Motion */
+  --ease-cinematic: cubic-bezier(0.22, 1, 0.36, 1);
+  --duration-reveal: 900ms;
 }
 
 @theme inline {
+  --color-burgundy: var(--burgundy);
+  --color-wine: var(--wine);
+  --color-champagne: var(--champagne);
+  --color-ivory: var(--ivory);
+
   --color-background: var(--background);
+  --color-background-elevated: var(--background-elevated);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-accent: var(--accent);
+  --color-accent-muted: var(--accent-muted);
+  --color-border-gold: var(--border-gold);
+  --color-overlay: var(--overlay);
+
+  --font-sans: var(--font-outfit);
+  --font-serif: var(--font-cormorant);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@layer base {
+  * {
+    box-sizing: border-box;
+  }
+
+  html {
+    scroll-behavior: auto;
+  }
+
+  html.lenis,
+  html.lenis body {
+    height: auto;
+  }
+
+  body {
+    min-height: 100%;
+    background: var(--background);
+    color: var(--foreground);
+    font-family: var(--font-outfit), ui-sans-serif, system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: var(--font-cormorant), ui-serif, Georgia, serif;
+    font-weight: 400;
+    letter-spacing: 0.01em;
+    color: var(--foreground);
+  }
+
+  ::selection {
+    background: color-mix(in srgb, var(--champagne) 35%, transparent);
+    color: var(--ivory);
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@layer utilities {
+  .font-heading {
+    font-family: var(--font-cormorant), ui-serif, Georgia, serif;
+  }
+
+  .font-body {
+    font-family: var(--font-outfit), ui-sans-serif, system-ui, sans-serif;
+  }
+
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .gold-border {
+    border: 1px solid var(--border-gold);
+  }
+
+  .bg-atmosphere {
+    background:
+      radial-gradient(
+        ellipse 80% 60% at 50% -10%,
+        color-mix(in srgb, var(--wine) 80%, transparent),
+        transparent 70%
+      ),
+      radial-gradient(
+        ellipse 50% 40% at 100% 100%,
+        color-mix(in srgb, var(--champagne) 8%, transparent),
+        transparent 55%
+      ),
+      var(--background);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
