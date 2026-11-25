@@ -6,8 +6,9 @@
  */
 
 export const WEDDING = {
-  bride: "[Bride Name]",
-  groom: "[Groom Name]",
+  // Demo placeholders — replace with the real couple details when ready.
+  bride: "Anaya",
+  groom: "Kabir",
 
   /**
    * Wedding ceremony local wall-clock time at the venue.
@@ -25,9 +26,9 @@ export const WEDDING = {
   /** IANA timezone for the wedding venue (e.g. Asia/Kolkata). */
   timeZone: "Asia/Kolkata",
 
-  venue: "[Wedding Venue Name]",
-  venueAddress: "[Venue Street Address]",
-  location: "[City, Region]",
+  venue: "The Grand Pavilion",
+  venueAddress: "12 Celebration Avenue",
+  location: "Mumbai, India",
 
   eyebrow: "Together with their families",
   subtitle: "Beginning a beautiful journey",
