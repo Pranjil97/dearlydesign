@@ -11,9 +11,6 @@ import {
   WEDDING,
 } from "@/config/wedding";
 
-/** Shared festive photo for Mehendi / Haldi / Sangeet until unique shots exist. */
-const PRE_WEDDING_IMAGE = IMAGE_PATHS.galleryCelebration;
-
 /** ISO-8601 wedding datetime derived from the central config (UTC instant). */
 export const WEDDING_COUNTDOWN_DATE = new Date(
   getWeddingTargetMs(WEDDING),
@@ -57,7 +54,7 @@ export const WEDDING_EVENTS: WeddingEvent[] = [
     venueName: "[Mehendi Venue Name]",
     venueAddress: "[Mehendi Venue Address]",
     mapsUrl: "https://www.google.com/maps/search/?api=1&query=Mehendi+Venue+Placeholder",
-    image: PRE_WEDDING_IMAGE,
+    image: IMAGE_PATHS.mehendi,
     aspect: "portrait",
   },
   {
@@ -72,7 +69,7 @@ export const WEDDING_EVENTS: WeddingEvent[] = [
     venueName: "[Haldi Venue Name]",
     venueAddress: "[Haldi Venue Address]",
     mapsUrl: "https://www.google.com/maps/search/?api=1&query=Haldi+Venue+Placeholder",
-    image: PRE_WEDDING_IMAGE,
+    image: IMAGE_PATHS.haldi,
     aspect: "portrait",
   },
   {
@@ -87,7 +84,7 @@ export const WEDDING_EVENTS: WeddingEvent[] = [
     venueName: "[Sangeet Venue Name]",
     venueAddress: "[Sangeet Venue Address]",
     mapsUrl: "https://www.google.com/maps/search/?api=1&query=Sangeet+Venue+Placeholder",
-    image: PRE_WEDDING_IMAGE,
+    image: IMAGE_PATHS.sangeet,
     aspect: "portrait",
   },
   {
@@ -103,7 +100,7 @@ export const WEDDING_EVENTS: WeddingEvent[] = [
     venueAddress: WEDDING.venueAddress,
     mapsUrl: `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${WEDDING.venue} ${WEDDING.location}`)}`,
     image: IMAGE_PATHS.ceremony,
-    aspect: "wide",
+    aspect: "portrait",
   },
   {
     id: "reception",

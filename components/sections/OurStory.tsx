@@ -36,23 +36,9 @@ export function OurStory({ reducedMotion = false }: OurStoryProps) {
           const { isDesktop, reduceMotion: mqReduce } = context.conditions!;
           if (mqReduce) return;
 
-          gsap.fromTo(
-            "[data-story-reveal]",
-            { clipPath: "inset(100% 0% 0% 0%)" },
-            {
-              clipPath: "inset(0% 0% 0% 0%)",
-              ease: "none",
-              scrollTrigger: {
-                trigger: section,
-                start: "top 75%",
-                end: "top 35%",
-                scrub: 0.7,
-              },
-            },
-          );
-
+          // Soft parallax only — image stays visible (no full clip hide).
           gsap.to("[data-story-image-inner]", {
-            yPercent: isDesktop ? 12 : 6,
+            yPercent: isDesktop ? 10 : 5,
             ease: "none",
             scrollTrigger: {
               trigger: section,
@@ -97,27 +83,28 @@ export function OurStory({ reducedMotion = false }: OurStoryProps) {
       />
 
       <div className="relative mx-auto grid max-w-6xl items-center gap-12 lg:grid-cols-2 lg:gap-16 xl:gap-24">
-        <div
-          data-story-reveal
+        <motion.div
           className="relative mx-auto w-full max-w-md lg:max-w-none"
-          style={
-            reducedMotion
-              ? undefined
-              : { clipPath: "inset(100% 0% 0% 0%)" }
-          }
+          initial={reducedMotion ? false : { opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.25 }}
+          transition={{
+            duration: reducedMotion ? 0 : 0.9,
+            ease: easings.cinematicOut,
+          }}
         >
           <div className="relative aspect-[4/5] overflow-hidden bg-wine">
             <div
               data-story-image-inner
-              className="absolute inset-[-14%] will-change-transform"
+              className="absolute inset-[-10%] will-change-transform"
             >
               <Image
                 src={IMAGE_PATHS.storyEditorial}
                 alt="Couple story photograph"
                 fill
                 sizes="(max-width: 1024px) 92vw, 42vw"
-                className="object-cover"
-                loading="lazy"
+                className="object-cover object-center"
+                priority
               />
             </div>
             <div
@@ -125,11 +112,11 @@ export function OurStory({ reducedMotion = false }: OurStoryProps) {
               aria-hidden
               style={{
                 background:
-                  "linear-gradient(180deg, transparent 50%, color-mix(in srgb, var(--burgundy) 50%, transparent) 100%)",
+                  "linear-gradient(180deg, transparent 55%, color-mix(in srgb, var(--burgundy) 45%, transparent) 100%)",
               }}
             />
           </div>
-        </div>
+        </motion.div>
 
         <div className="relative text-center lg:text-left">
           <motion.p

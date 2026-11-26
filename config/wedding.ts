@@ -213,13 +213,16 @@ export const IMAGE_PATHS = {
   floralRight: "/images/hero/floral-right.svg",
   floralBgLeft: "/images/hero/floral-bg-left.svg",
   floralBgRight: "/images/hero/floral-bg-right.svg",
-  storyEditorial: "/images/story/couple-story.jpg",
-  beginningBg: "/images/gallery/wedding-portrait.jpg",
+  storyEditorial: "/images/story/our-story.jpg",
+  beginningBg: "/images/beginning/forever.jpg",
   galleryPortrait: "/images/gallery/wedding-portrait.jpg",
   galleryCelebration: "/images/gallery/wedding-celebration.jpg",
   invitationDetail: "/images/details/wedding-invitation.jpg",
   venue: "/images/venue/wedding-venue.jpg",
-  ceremony: "/images/events/wedding-mandap.jpg",
+  mehendi: "/images/events/mehendi.jpg",
+  haldi: "/images/events/haldi.jpg",
+  sangeet: "/images/events/sangeet.jpg",
+  ceremony: "/images/events/wedding-ceremony.jpg",
   reception: "/images/events/reception-dinner.jpg",
 } as const;
 
@@ -269,9 +272,9 @@ export const WEDDING_GALLERY: GalleryItem[] = [
   {
     id: "05",
     src: IMAGE_PATHS.ceremony,
-    alt: "Wedding ceremony setting",
+    alt: "Wedding ceremony portrait",
     caption: "Sacred vows",
-    aspect: "wide",
+    aspect: "portrait",
   },
   {
     id: "06",
