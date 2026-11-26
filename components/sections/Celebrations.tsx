@@ -1,10 +1,10 @@
 "use client";
 
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { motion } from "motion/react";
 import { EventCard } from "@/components/events/EventCard";
 import { OrnamentalDivider } from "@/components/invitation/OrnamentalDivider";
-import { easings, gsap, registerGsap, useGSAP } from "@/lib/animations";
+import { easings } from "@/lib/animations";
 import {
   CELEBRATIONS_COPY,
   WEDDING_EVENTS,
@@ -27,96 +27,78 @@ const desktopPlacement: Record<WeddingEventId, string> = {
 
 export function Celebrations({ reducedMotion = false }: CelebrationsProps) {
   const [expandedId, setExpandedId] = useState<WeddingEventId | null>(null);
-  const sectionRef = useRef<HTMLElement>(null);
-  const stackRef = useRef<HTMLDivElement>(null);
+  const [activeIndex, setActiveIndex] = useState(0);
+  const scrollerRef = useRef<HTMLDivElement>(null);
 
   const handleToggle = useCallback((id: WeddingEventId) => {
     setExpandedId((current) => (current === id ? null : id));
   }, []);
 
-  useGSAP(
-    () => {
-      registerGsap();
-      if (reducedMotion || !sectionRef.current || !stackRef.current) return;
+  const updateActiveFromScroll = useCallback(() => {
+    const scroller = scrollerRef.current;
+    if (!scroller) return;
 
-      const section = sectionRef.current;
-      const cards = gsap.utils.toArray<HTMLElement>(
-        stackRef.current.querySelectorAll("[data-event-stack-card]"),
-      );
-      if (cards.length < 2) return;
+    const slides = Array.from(
+      scroller.querySelectorAll<HTMLElement>("[data-event-slide]"),
+    );
+    if (slides.length === 0) return;
 
-      const mm = gsap.matchMedia();
+    const scrollerCenter = scroller.scrollLeft + scroller.clientWidth / 2;
+    let nearest = 0;
+    let nearestDistance = Number.POSITIVE_INFINITY;
 
-      mm.add(
-        "(max-width: 767px) and (prefers-reduced-motion: no-preference)",
-        () => {
-          gsap.set(cards, {
-            position: "absolute",
-            inset: 0,
-            width: "100%",
-          });
-          gsap.set(cards[0], { autoAlpha: 1, y: 0, scale: 1, zIndex: cards.length });
-          cards.slice(1).forEach((card, index) => {
-            gsap.set(card, {
-              autoAlpha: 0,
-              y: 56,
-              scale: 0.94,
-              zIndex: cards.length - index - 1,
-            });
-          });
+    slides.forEach((slide, index) => {
+      const slideCenter = slide.offsetLeft + slide.offsetWidth / 2;
+      const distance = Math.abs(slideCenter - scrollerCenter);
+      if (distance < nearestDistance) {
+        nearestDistance = distance;
+        nearest = index;
+      }
+    });
 
-          const tl = gsap.timeline({
-            scrollTrigger: {
-              trigger: section,
-              start: "top top",
-              end: () => `+=${cards.length * window.innerHeight * 0.72}`,
-              pin: true,
-              scrub: 0.65,
-              anticipatePin: 1,
-              invalidateOnRefresh: true,
-            },
-          });
+    setActiveIndex(nearest);
+  }, []);
 
-          cards.forEach((card, index) => {
-            if (index === cards.length - 1) return;
-            const next = cards[index + 1];
-            const step = index;
+  useEffect(() => {
+    const scroller = scrollerRef.current;
+    if (!scroller) return;
 
-            tl.to(
-              card,
-              {
-                autoAlpha: 0,
-                y: -36,
-                scale: 0.9,
-                duration: 1,
-                ease: "none",
-              },
-              step,
-            ).to(
-              next,
-              {
-                autoAlpha: 1,
-                y: 0,
-                scale: 1,
-                duration: 1,
-                ease: "none",
-              },
-              step,
-            );
-          });
-        },
-      );
+    updateActiveFromScroll();
+    scroller.addEventListener("scroll", updateActiveFromScroll, {
+      passive: true,
+    });
 
-      return () => mm.revert();
+    return () => {
+      scroller.removeEventListener("scroll", updateActiveFromScroll);
+    };
+  }, [updateActiveFromScroll]);
+
+  const goToSlide = useCallback(
+    (index: number) => {
+      const scroller = scrollerRef.current;
+      if (!scroller) return;
+
+      const slide = scroller.querySelectorAll<HTMLElement>("[data-event-slide]")[
+        index
+      ];
+      if (!slide) return;
+
+      slide.scrollIntoView({
+        behavior: reducedMotion ? "auto" : "smooth",
+        inline: "center",
+        block: "nearest",
+      });
+      setActiveIndex(index);
     },
-    { scope: sectionRef, dependencies: [reducedMotion] },
+    [reducedMotion],
   );
+
+  const total = WEDDING_EVENTS.length;
 
   return (
     <section
-      ref={sectionRef}
       id="events"
-      className="relative overflow-hidden bg-burgundy px-5 py-24 sm:px-8 sm:py-32 lg:px-10 lg:py-40"
+      className="relative overflow-x-hidden bg-burgundy px-5 py-24 sm:px-8 sm:py-32 lg:px-10 lg:py-40"
       aria-label="Wedding celebrations"
     >
       <div
@@ -173,7 +155,7 @@ export function Celebrations({ reducedMotion = false }: CelebrationsProps) {
         </motion.p>
       </div>
 
-      {/* Desktop asymmetric editorial grid */}
+      {/* Desktop asymmetric editorial grid — unchanged */}
       <div className="relative mx-auto hidden max-w-6xl md:grid md:grid-cols-12 md:gap-x-8 md:gap-y-14 lg:gap-x-10 lg:gap-y-16">
         {WEDDING_EVENTS.map((event, index) => (
           <EventCard
@@ -188,65 +170,86 @@ export function Celebrations({ reducedMotion = false }: CelebrationsProps) {
         ))}
       </div>
 
-      {/* Mobile: vertical scroll stack — one card forward, previous slips back */}
-      {!reducedMotion ? (
-        <div className="relative md:hidden">
-          <div
-            ref={stackRef}
-            className="relative mx-auto h-[min(72dvh,34rem)] w-full max-w-[22rem]"
-          >
-            {WEDDING_EVENTS.map((event, index) => (
-              <div
-                key={event.id}
-                data-event-stack-card
-                className="will-change-transform"
-              >
-                <EventCard
-                  event={event}
-                  expanded={expandedId === event.id}
-                  onToggle={() => handleToggle(event.id)}
-                  reducedMotion={reducedMotion}
-                  skipEntrance
-                  priority={index === 0}
-                />
-              </div>
-            ))}
-          </div>
-          <p className="mt-6 text-center text-[0.58rem] uppercase tracking-[0.28em] text-champagne/55">
-            Scroll to reveal each celebration
-          </p>
-        </div>
-      ) : null}
-
-      {/* Mobile fallback / reduced-motion: horizontal swipe */}
-      <div
-        className={cn(
-          "relative max-w-[100vw] overflow-x-hidden",
-          reducedMotion ? "md:hidden" : "hidden",
-        )}
-      >
-        <div className="flex snap-x snap-mandatory gap-5 overflow-x-auto overflow-y-hidden overscroll-x-contain px-1 pb-4 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+      {/* Mobile: horizontal scroll-snap carousel */}
+      <div className="relative -mx-5 max-w-[100vw] md:hidden">
+        <div
+          ref={scrollerRef}
+          className="flex snap-x snap-mandatory gap-3 overflow-x-auto overflow-y-hidden overscroll-x-contain px-5 pb-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+          style={{
+            // Extra end padding keeps the last card snappable while
+            // revealing a peek of the next slide on earlier cards.
+            paddingRight: "max(1.25rem, 14vw)",
+            WebkitOverflowScrolling: "touch",
+            scrollBehavior: reducedMotion ? "auto" : "smooth",
+          }}
+          role="region"
+          aria-roledescription="carousel"
+          aria-label="Wedding celebration events"
+          tabIndex={0}
+        >
           {WEDDING_EVENTS.map((event, index) => (
             <div
               key={event.id}
-              className={cn(
-                "w-[82vw] max-w-[22rem] shrink-0 snap-center",
-                index === WEDDING_EVENTS.length - 1 && "mr-1",
-              )}
+              data-event-slide
+              className="w-[calc(100vw-3.75rem)] max-w-[22rem] shrink-0 snap-center"
+              role="group"
+              aria-roledescription="slide"
+              aria-label={`${index + 1} of ${total}: ${event.title}`}
             >
               <EventCard
                 event={event}
                 expanded={expandedId === event.id}
                 onToggle={() => handleToggle(event.id)}
                 reducedMotion={reducedMotion}
+                skipEntrance
+                compactMobile
                 priority={index === 0}
               />
             </div>
           ))}
         </div>
-        <p className="mt-3 text-center text-[0.58rem] uppercase tracking-[0.28em] text-champagne/55">
-          Swipe for more celebrations
-        </p>
+
+        <div className="mt-6 flex flex-col items-center gap-3">
+          <p
+            className="font-heading text-sm tracking-[0.2em] text-champagne/80"
+            aria-live="polite"
+          >
+            {activeIndex + 1}
+            <span className="mx-1 text-champagne/40">/</span>
+            {total}
+          </p>
+
+          <div
+            className="flex items-center justify-center gap-2"
+            role="tablist"
+            aria-label="Event pagination"
+          >
+            {WEDDING_EVENTS.map((event, index) => {
+              const isActive = index === activeIndex;
+              return (
+                <button
+                  key={event.id}
+                  type="button"
+                  role="tab"
+                  aria-selected={isActive}
+                  aria-label={`Go to ${event.title}`}
+                  onClick={() => goToSlide(index)}
+                  className={cn(
+                    "h-2 rounded-full transition-[width,background-color] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-champagne",
+                    isActive
+                      ? "w-6 bg-champagne"
+                      : "w-2 bg-champagne/35 hover:bg-champagne/55",
+                    reducedMotion && "duration-0",
+                  )}
+                />
+              );
+            })}
+          </div>
+
+          <p className="text-[0.58rem] uppercase tracking-[0.28em] text-champagne/55">
+            Swipe for more celebrations
+          </p>
+        </div>
       </div>
     </section>
   );

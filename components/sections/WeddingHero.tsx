@@ -114,9 +114,14 @@ export function WeddingHero({ reducedMotion = false }: WeddingHeroProps) {
     <section
       ref={sectionRef}
       id="hero"
-      className="relative min-h-[140vh] overflow-hidden bg-burgundy"
+      className="relative min-h-dvh overflow-hidden bg-burgundy md:min-h-[140vh]"
       aria-label="Wedding hero"
     >
+      {/*
+        Mobile: section height matches the sticky viewport so Our Story
+        begins immediately after the hero (no leftover scroll gap).
+        Desktop: taller section keeps the existing parallax scrub room.
+      */}
       <div className="sticky top-0 h-dvh overflow-hidden">
         <div
           data-hero-bg

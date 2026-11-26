@@ -4,10 +4,8 @@ import { useEffect } from "react";
 import { WeddingHero } from "./WeddingHero";
 import { OurStory } from "./OurStory";
 import { TheBeginning } from "./TheBeginning";
-import { OurJourney } from "./OurJourney";
 import { Countdown } from "./Countdown";
 import { Celebrations } from "./Celebrations";
-import { SaveTheDate } from "./SaveTheDate";
 import { RsvpSection } from "./RsvpSection";
 import { FinalThankYou } from "./FinalThankYou";
 import { registerGsap, ScrollTrigger } from "@/lib/animations";
@@ -19,6 +17,9 @@ type WeddingJourneyProps = {
 /**
  * Post-envelope cinematic journey.
  * Refresh ScrollTrigger after mount so Lenis layout is measured correctly.
+ *
+ * Gallery (`OurJourney`) and Save The Date remain as reusable section
+ * components but are intentionally omitted from the active invitation.
  */
 export function WeddingJourney({
   reducedMotion = false,
@@ -40,10 +41,8 @@ export function WeddingJourney({
       <WeddingHero reducedMotion={reducedMotion} />
       <OurStory reducedMotion={reducedMotion} />
       <TheBeginning reducedMotion={reducedMotion} />
-      <OurJourney reducedMotion={reducedMotion} />
       <Countdown reducedMotion={reducedMotion} />
       <Celebrations reducedMotion={reducedMotion} />
-      <SaveTheDate reducedMotion={reducedMotion} />
       <RsvpSection reducedMotion={reducedMotion} />
       <FinalThankYou reducedMotion={reducedMotion} />
     </div>

@@ -15,8 +15,10 @@ type EventCardProps = {
   expanded: boolean;
   onToggle: () => void;
   reducedMotion?: boolean;
-  /** Skip whileInView fade — used by the mobile scroll stack. */
+  /** Skip whileInView fade — used by the mobile carousel. */
   skipEntrance?: boolean;
+  /** Uniform image crop for mobile carousel readability. */
+  compactMobile?: boolean;
   className?: string;
   priority?: boolean;
 };
@@ -33,6 +35,7 @@ export function EventCard({
   onToggle,
   reducedMotion = false,
   skipEntrance = false,
+  compactMobile = false,
   className,
   priority = false,
 }: EventCardProps) {
@@ -63,7 +66,7 @@ export function EventCard({
         <div
           className={cn(
             "relative w-full overflow-hidden bg-burgundy",
-            aspectClass[event.aspect],
+            compactMobile ? "aspect-[4/5]" : aspectClass[event.aspect],
           )}
         >
           <motion.div
@@ -99,14 +102,29 @@ export function EventCard({
           />
         </div>
 
-        <div className="relative px-1 pb-1 pt-5 sm:pt-6">
+        <div
+          className={cn(
+            "relative px-1 pb-1",
+            compactMobile ? "pt-4" : "pt-5 sm:pt-6",
+          )}
+        >
           <p className="text-[0.6rem] uppercase tracking-[0.3em] text-champagne/80 sm:text-[0.65rem]">
             {event.dateLabel} · {event.timeLabel}
           </p>
-          <h3 className="mt-2 font-heading text-2xl font-medium tracking-wide text-ivory sm:text-3xl">
+          <h3
+            className={cn(
+              "mt-2 font-heading font-medium tracking-wide text-ivory",
+              compactMobile ? "text-xl leading-snug" : "text-2xl sm:text-3xl",
+            )}
+          >
             {event.title}
           </h3>
-          <p className="mt-3 max-w-md font-heading text-base font-light leading-relaxed text-ivory/70 sm:text-lg">
+          <p
+            className={cn(
+              "mt-3 max-w-md font-heading font-light leading-relaxed text-ivory/70",
+              compactMobile ? "text-[0.95rem]" : "text-base sm:text-lg",
+            )}
+          >
             {event.description}
           </p>
           <span className="mt-4 inline-block text-[0.65rem] uppercase tracking-[0.28em] text-champagne transition-opacity group-hover:opacity-100 md:opacity-80">

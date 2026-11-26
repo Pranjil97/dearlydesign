@@ -84,7 +84,7 @@ export function OurStory({ reducedMotion = false }: OurStoryProps) {
     <section
       ref={sectionRef}
       id="story"
-      className="relative overflow-hidden bg-burgundy px-5 py-24 sm:px-8 sm:py-32 lg:px-10 lg:py-40"
+      className="relative overflow-hidden bg-burgundy px-5 pb-24 pt-16 sm:px-8 sm:py-32 lg:px-10 lg:py-40"
       aria-label="Our story"
     >
       <div
