@@ -133,9 +133,9 @@ export const COUNTDOWN_COPY = {
 
 export const CELEBRATIONS_COPY = {
   eyebrow: "Wedding Celebrations",
-  title: "Five chapters of joy",
+  title: "Five Chapters of Joy",
   subtitle: "Each gathering is a distinct moment in our celebration.",
-  expandLabel: "Event details",
-  collapseLabel: "Show less",
+  expandLabel: "Event Details",
+  collapseLabel: "Show Less",
   directionsLabel: "Get Directions",
 } as const;

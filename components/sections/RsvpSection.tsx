@@ -47,7 +47,7 @@ export function RsvpSection({ reducedMotion = false }: RsvpSectionProps) {
         </motion.p>
 
         <motion.h2
-          className="mt-5 font-heading text-balance text-3xl font-medium tracking-wide text-ivory sm:text-4xl md:text-5xl lg:text-6xl"
+          className="mt-5 font-heading text-balance text-[2.35rem] leading-[1.2] text-ivory sm:text-5xl md:text-6xl"
           initial={reducedMotion ? false : { opacity: 0, y: 22 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -61,7 +61,7 @@ export function RsvpSection({ reducedMotion = false }: RsvpSectionProps) {
         </motion.h2>
 
         <motion.p
-          className="mt-4 font-heading text-xl tracking-wide text-champagne sm:text-2xl"
+          className="mt-4 font-heading text-2xl text-champagne sm:text-3xl"
           initial={reducedMotion ? false : { opacity: 0, y: 14 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -77,7 +77,7 @@ export function RsvpSection({ reducedMotion = false }: RsvpSectionProps) {
         <OrnamentalDivider className="mx-auto mt-7 text-champagne" />
 
         <motion.p
-          className="mt-6 font-heading text-lg font-light text-ivory/70 sm:text-xl"
+          className="mt-6 font-serif text-lg font-light text-ivory/70 sm:text-xl"
           initial={reducedMotion ? false : { opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}

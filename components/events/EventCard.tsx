@@ -113,15 +113,17 @@ export function EventCard({
           </p>
           <h3
             className={cn(
-              "mt-2 font-heading font-medium tracking-wide text-ivory",
-              compactMobile ? "text-xl leading-snug" : "text-2xl sm:text-3xl",
+              "mt-2 font-heading text-ivory",
+              compactMobile
+                ? "text-[1.65rem] leading-snug"
+                : "text-3xl sm:text-4xl",
             )}
           >
             {event.title}
           </h3>
           <p
             className={cn(
-              "mt-3 max-w-md font-heading font-light leading-relaxed text-ivory/70",
+              "mt-3 max-w-md font-serif font-light leading-relaxed text-ivory/70",
               compactMobile ? "text-[0.95rem]" : "text-base sm:text-lg",
             )}
           >
@@ -156,12 +158,12 @@ export function EventCard({
             className="overflow-hidden"
           >
             <div className="border-t border-champagne/20 px-1 pb-5 pt-4">
-              <p className="font-heading text-base font-light leading-relaxed text-ivory/75">
+              <p className="font-serif text-base font-light leading-relaxed text-ivory/75">
                 {event.details}
               </p>
 
               <div className="mt-5 space-y-1">
-                <p className="font-heading text-lg text-ivory">
+                <p className="font-heading text-2xl text-ivory">
                   {event.venueName}
                 </p>
                 <p className="text-sm leading-relaxed text-ivory/60">

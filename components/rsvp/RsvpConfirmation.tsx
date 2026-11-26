@@ -66,13 +66,13 @@ export function RsvpConfirmation({
         </p>
       ) : null}
 
-      <h3 className="relative font-heading text-balance text-3xl font-medium tracking-wide text-ivory sm:text-4xl">
+      <h3 className="relative font-heading text-balance text-[2.25rem] leading-[1.2] text-ivory sm:text-4xl">
         {title}
       </h3>
 
       <OrnamentalDivider className="relative mt-7 text-champagne" />
 
-      <p className="relative mt-7 font-heading text-lg font-light leading-relaxed text-ivory/75 sm:text-xl">
+      <p className="relative mt-7 font-serif text-lg font-light leading-relaxed text-ivory/75 sm:text-xl">
         {body}
       </p>
     </motion.div>

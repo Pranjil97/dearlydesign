@@ -1,8 +1,8 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
-import { Envelope, type EnvelopePhase } from "./Envelope";
+import { Envelope } from "./Envelope";
 import { GoldParticles } from "./GoldParticles";
 import { MusicPlayer, useMusic } from "@/components/music";
 import { WeddingJourney } from "@/components/sections";
@@ -11,46 +11,28 @@ import { usePrefersReducedMotion } from "@/lib/hooks/usePrefersReducedMotion";
 
 type ExperienceView = "envelope" | "hero";
 
+/**
+ * Screen 1: closed envelope ("Click to open")
+ * Screen 2: Wedding Hero (couple photo) — entered directly on press
+ * No intermediate card-rising state.
+ */
 export function InvitationExperience() {
   const prefersReducedMotion = usePrefersReducedMotion();
   const { playFromStart } = useMusic();
-  const [phase, setPhase] = useState<EnvelopePhase>("closed");
   const [view, setView] = useState<ExperienceView>("envelope");
   const [hasOpened, setHasOpened] = useState(false);
-  const openTimerRef = useRef<number | null>(null);
-
-  useEffect(() => {
-    return () => {
-      if (openTimerRef.current !== null) {
-        window.clearTimeout(openTimerRef.current);
-      }
-    };
-  }, []);
 
   const handleOpen = useCallback(() => {
-    if (hasOpened || phase !== "closed") return;
+    if (hasOpened || view !== "envelope") return;
 
     setHasOpened(true);
 
-    if (prefersReducedMotion) {
-      setPhase("revealed");
-      return;
-    }
-
-    setPhase("opening");
-    openTimerRef.current = window.setTimeout(() => {
-      setPhase("revealed");
-      openTimerRef.current = null;
-    }, 1100);
-  }, [hasOpened, phase, prefersReducedMotion]);
-
-  const handleEnterExperience = useCallback(() => {
-    if (view !== "envelope") return;
-    // Start music in the same user-gesture turn as Open Invitation
-    // so browsers allow playback without a second click.
+    // Start music in the same user-gesture turn as the envelope press.
     void playFromStart();
+
+    // Go straight to the hero — no card peek / open-invitation step.
     setView("hero");
-  }, [view, playFromStart]);
+  }, [hasOpened, view, playFromStart]);
 
   return (
     <div className="relative min-h-dvh bg-burgundy">
@@ -66,7 +48,7 @@ export function InvitationExperience() {
                 : { opacity: 0, scale: 1.04, filter: "blur(8px)" }
             }
             transition={{
-              duration: prefersReducedMotion ? 0.2 : 0.9,
+              duration: prefersReducedMotion ? 0.2 : 0.85,
               ease: easings.cinematicInOut,
             }}
             aria-label="Invitation envelope"
@@ -82,32 +64,20 @@ export function InvitationExperience() {
 
             <GoldParticles />
 
-            <motion.div
-              className="relative z-10 mb-10 flex max-w-md flex-col items-center text-center"
-              initial={false}
-              animate={{
-                opacity: phase === "closed" ? 1 : 0,
-                y: phase === "closed" ? 0 : prefersReducedMotion ? 0 : -12,
-              }}
-              transition={{
-                duration: prefersReducedMotion ? 0 : 0.5,
-                ease: easings.cinematicOut,
-              }}
-            >
-              <p className="font-heading text-balance text-2xl font-medium tracking-wide text-ivory sm:text-3xl">
-                A special invitation awaits you
+            <div className="relative z-10 mb-10 flex max-w-md flex-col items-center text-center">
+              <p className="font-heading text-balance text-[2rem] leading-[1.25] text-ivory sm:text-4xl">
+                A Special Invitation Awaits You
               </p>
               <p className="mt-4 text-[0.65rem] font-medium uppercase tracking-[0.32em] text-champagne/80 sm:text-xs">
                 Click to open
               </p>
-            </motion.div>
+            </div>
 
             <div className="relative z-10">
               <Envelope
-                phase={phase}
+                phase="closed"
                 reducedMotion={prefersReducedMotion}
                 onOpen={handleOpen}
-                onEnterExperience={handleEnterExperience}
               />
             </div>
           </motion.section>
@@ -118,11 +88,11 @@ export function InvitationExperience() {
             initial={
               prefersReducedMotion
                 ? { opacity: 0 }
-                : { opacity: 0, y: 36 }
+                : { opacity: 0, y: 28 }
             }
             animate={{ opacity: 1, y: 0 }}
             transition={{
-              duration: prefersReducedMotion ? 0.25 : 1.05,
+              duration: prefersReducedMotion ? 0.2 : 0.95,
               ease: easings.cinematicOut,
             }}
           >

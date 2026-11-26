@@ -34,7 +34,7 @@ export function CountdownUnit({
         <AnimatePresence mode="popLayout" initial={false}>
           <motion.span
             key={display}
-            className="absolute inset-x-0 top-1/2 -translate-y-1/2 text-center font-heading text-4xl tracking-wide text-champagne tabular-nums sm:text-5xl md:text-6xl"
+            className="absolute inset-x-0 top-1/2 -translate-y-1/2 text-center font-serif text-4xl font-medium tracking-wide text-champagne tabular-nums sm:text-5xl md:text-6xl"
             initial={reducedMotion ? false : { y: 18, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             exit={reducedMotion ? undefined : { y: -18, opacity: 0 }}

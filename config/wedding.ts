@@ -30,29 +30,29 @@ export const WEDDING = {
   venueAddress: "12 Celebration Avenue",
   location: "Mumbai, India",
 
-  eyebrow: "Together with their families",
-  subtitle: "Beginning a beautiful journey",
+  eyebrow: "Together with Their Families",
+  subtitle: "Beginning a Beautiful Journey",
   dateLabel: "Wedding Date",
-  venueHint: "A celebration of love, light & legacy",
+  venueHint: "A Celebration of Love, Light & Legacy",
 
   story: {
     eyebrow: "Our Story",
-    title: "Every Love Story Has A Beginning",
+    title: "Every Love Story Has a Beginning",
     body: "Two hearts found their rhythm in shared laughter, long conversations, and the kind of love that feels like coming home. This chapter is only the beginning of a lifetime written together.",
   },
   beginning: {
     eyebrow: "The Beginning",
-    title: "Where forever quietly began",
+    title: "Where Forever Quietly Began",
     body: "In a moment suspended between laughter and light, two lives turned toward the same horizon.",
   },
   journey: {
     eyebrow: "Wedding Gallery",
-    title: "Moments that became memory",
+    title: "Moments That Became Memory",
   },
   saveTheDate: {
     eyebrow: "Save The Date",
-    title: "Join us as we begin forever",
-    cta: "We cannot wait to celebrate with you",
+    title: "Join Us as We Begin Forever",
+    cta: "We Cannot Wait to Celebrate with You",
   },
   countdown: {
     eyebrow: "Countdown",
@@ -65,13 +65,13 @@ export const WEDDING = {
       "The vows have been spoken and the celebration lives on in every heart that joined us.",
   },
   thankYou: {
-    eyebrow: "With gratitude",
+    eyebrow: "With Gratitude",
     title: "Your Presence Is Our Greatest Gift",
   },
   envelope: {
     brand: "The Wedding Experience",
-    inviteLine: "You are cordially invited",
-    celebrationLine: "A celebration of love",
+    inviteLine: "You Are Cordially Invited",
+    celebrationLine: "A Celebration of Love",
     openLabel: "Open Invitation",
   },
 } as const;

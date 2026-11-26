@@ -124,7 +124,7 @@ export function TheBeginning({ reducedMotion = false }: TheBeginningProps) {
         </motion.p>
 
         <motion.h2
-          className="mt-6 font-heading text-balance text-4xl font-medium tracking-wide text-ivory sm:text-5xl md:text-6xl lg:text-7xl"
+          className="mt-6 font-heading text-balance text-[2.5rem] leading-[1.2] text-ivory sm:text-5xl md:text-6xl lg:text-7xl"
           initial={reducedMotion ? false : { opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.5 }}
@@ -140,7 +140,7 @@ export function TheBeginning({ reducedMotion = false }: TheBeginningProps) {
         <OrnamentalDivider className="mt-8 text-champagne" />
 
         <motion.p
-          className="mt-7 max-w-xl font-heading text-lg font-light leading-relaxed text-ivory/75 sm:text-xl"
+          className="mt-7 max-w-xl font-serif text-lg font-light leading-relaxed text-ivory/75 sm:text-xl"
           initial={reducedMotion ? false : { opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.5 }}

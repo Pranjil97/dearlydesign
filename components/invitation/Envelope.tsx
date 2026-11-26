@@ -1,10 +1,7 @@
 "use client";
 
 import { motion } from "motion/react";
-import { InvitationCard } from "./InvitationCard";
 import { WaxSeal } from "./WaxSeal";
-import { easings } from "@/lib/animations";
-import { cn } from "@/lib/utils/cn";
 import "./envelope.css";
 
 export type EnvelopePhase = "closed" | "opening" | "revealed";
@@ -13,23 +10,18 @@ type EnvelopeProps = {
   phase: EnvelopePhase;
   reducedMotion?: boolean;
   onOpen: () => void;
-  onEnterExperience: () => void;
 };
 
+/**
+ * Closed invitation envelope for the first screen.
+ * Plain sealed look — no invitation card / text showing through.
+ */
 export function Envelope({
   phase,
   reducedMotion = false,
   onOpen,
-  onEnterExperience,
 }: EnvelopeProps) {
-  const isOpen = phase !== "closed";
-  const isRevealed = phase === "revealed";
   const canOpen = phase === "closed";
-
-  const flapRotate = isOpen ? -165 : 0;
-
-  const cardY =
-    phase === "revealed" ? "-58%" : phase === "opening" ? "-28%" : "22%";
 
   return (
     <div className="envelope-scene">
@@ -44,7 +36,7 @@ export function Envelope({
         transition={
           canOpen && !reducedMotion
             ? { duration: 5.5, repeat: Infinity, ease: "easeInOut" }
-            : { duration: 0.4 }
+            : { duration: 0.35 }
         }
       >
         <motion.div
@@ -68,67 +60,20 @@ export function Envelope({
           transition={{ type: "spring", stiffness: 260, damping: 22 }}
           style={{ cursor: canOpen ? "pointer" : "default" }}
         >
-          <div className={cn("envelope-pocket", isOpen && "is-open")}>
+          <div className="envelope-pocket">
             <div className="envelope-inner-shadow" />
-
-            <div
-              className={cn(
-                "envelope-card-slot",
-                isRevealed && "is-interactive",
-              )}
-            >
-              <motion.div
-                className="h-full w-full"
-                initial={false}
-                animate={{ y: cardY }}
-                transition={{
-                  duration: reducedMotion ? 0 : 1.15,
-                  delay: reducedMotion ? 0 : isOpen ? 0.35 : 0,
-                  ease: easings.cinematicOut,
-                }}
-                style={{ transformStyle: "preserve-3d" }}
-              >
-                <InvitationCard
-                  revealed={isRevealed}
-                  reducedMotion={reducedMotion}
-                  onEnterExperience={onEnterExperience}
-                />
-              </motion.div>
-            </div>
           </div>
 
-          <motion.div
-            className="envelope-flap"
-            initial={false}
-            animate={{ rotateX: flapRotate }}
-            transition={{
-              duration: reducedMotion ? 0 : 1.05,
-              ease: easings.cinematicInOut,
-            }}
-            style={{ transformStyle: "preserve-3d" }}
-          >
+          <div className="envelope-flap">
             <div className="envelope-flap-face" />
             <div className="envelope-flap-back" />
-          </motion.div>
+          </div>
 
-          <motion.div
-            initial={false}
-            animate={{
-              opacity: isOpen ? 0 : 1,
-              scale: isOpen ? 0.85 : 1,
-              pointerEvents: isOpen ? "none" : "auto",
-            }}
-            transition={{
-              duration: reducedMotion ? 0 : 0.45,
-              ease: easings.cinematicOut,
-            }}
-          >
-            <WaxSeal
-              interactive={canOpen}
-              reducedMotion={reducedMotion}
-              onOpen={onOpen}
-            />
-          </motion.div>
+          <WaxSeal
+            interactive={canOpen}
+            reducedMotion={reducedMotion}
+            onOpen={onOpen}
+          />
         </motion.div>
       </motion.div>
     </div>

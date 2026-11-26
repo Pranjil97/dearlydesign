@@ -35,8 +35,8 @@ export const RSVP_COPY = {
     message: "A note for the couple (optional)",
   },
   confirmation: {
-    acceptTitle: "We cannot wait to celebrate with you",
-    declineTitle: "Thank you for letting us know",
+    acceptTitle: "We Cannot Wait to Celebrate with You",
+    declineTitle: "Thank You for Letting Us Know",
     acceptBody:
       "Your joyful acceptance means the world to us. We look forward to sharing this beautiful day with you, {name}.",
     declineBody:

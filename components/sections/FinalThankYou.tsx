@@ -127,7 +127,7 @@ export function FinalThankYou({ reducedMotion = false }: FinalThankYouProps) {
         </motion.p>
 
         <motion.h2
-          className="mt-6 font-heading text-balance text-4xl font-medium tracking-wide text-ivory sm:text-5xl md:text-6xl lg:text-7xl"
+          className="mt-6 font-heading text-balance text-[2.5rem] leading-[1.2] text-ivory sm:text-5xl md:text-6xl lg:text-7xl"
           initial={reducedMotion ? false : { opacity: 0, y: 28 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.45 }}
@@ -150,7 +150,7 @@ export function FinalThankYou({ reducedMotion = false }: FinalThankYouProps) {
         </motion.div>
 
         <motion.p
-          className="mt-8 font-heading text-2xl tracking-wide text-ivory sm:text-3xl"
+          className="mt-8 font-heading text-3xl text-ivory sm:text-4xl"
           initial={reducedMotion ? false : { opacity: 0, y: 18 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}

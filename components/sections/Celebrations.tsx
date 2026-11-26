@@ -125,7 +125,7 @@ export function Celebrations({ reducedMotion = false }: CelebrationsProps) {
         </motion.p>
 
         <motion.h2
-          className="mt-5 font-heading text-balance text-4xl font-medium tracking-wide text-ivory sm:text-5xl md:text-6xl"
+          className="mt-5 font-heading text-balance text-[2.5rem] leading-[1.2] text-ivory sm:text-5xl md:text-6xl"
           initial={reducedMotion ? false : { opacity: 0, y: 22 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -141,7 +141,7 @@ export function Celebrations({ reducedMotion = false }: CelebrationsProps) {
         <OrnamentalDivider className="mx-auto mt-7 text-champagne" />
 
         <motion.p
-          className="mt-6 font-heading text-lg font-light text-ivory/70 sm:text-xl"
+          className="mt-6 font-serif text-lg font-light text-ivory/70 sm:text-xl"
           initial={reducedMotion ? false : { opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -211,7 +211,7 @@ export function Celebrations({ reducedMotion = false }: CelebrationsProps) {
 
         <div className="mt-6 flex flex-col items-center gap-3">
           <p
-            className="font-heading text-sm tracking-[0.2em] text-champagne/80"
+            className="font-heading text-xl text-champagne/80 sm:text-2xl"
             aria-live="polite"
           >
             {activeIndex + 1}

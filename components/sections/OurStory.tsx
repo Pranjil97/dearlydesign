@@ -140,7 +140,7 @@ export function OurStory({ reducedMotion = false }: OurStoryProps) {
           </motion.p>
 
           <motion.h2
-            className="mt-5 font-heading text-balance text-4xl font-medium leading-[1.12] tracking-wide text-ivory sm:text-5xl lg:text-6xl"
+            className="mt-5 font-heading text-balance text-[2.5rem] leading-[1.2] text-ivory sm:text-5xl lg:text-6xl"
             {...textEntrance(0.1)}
           >
             {WEDDING.story.title}
@@ -151,21 +151,21 @@ export function OurStory({ reducedMotion = false }: OurStoryProps) {
           </motion.div>
 
           <motion.p
-            className="mt-7 max-w-xl font-heading text-lg font-light leading-relaxed text-ivory/75 sm:text-xl lg:mx-0"
+            className="mt-7 max-w-xl font-serif text-lg font-light leading-relaxed text-ivory/75 sm:text-xl lg:mx-0"
             {...textEntrance(0.24)}
           >
             {WEDDING.story.body}
           </motion.p>
 
           <motion.p
-            className="mt-8 font-heading text-lg tracking-wide text-ivory/90"
+            className="mt-8 font-heading text-2xl text-ivory/90 sm:text-3xl"
             {...textEntrance(0.3)}
           >
             {getCoupleNames(WEDDING)}
           </motion.p>
 
           <motion.p
-            className="mt-3 font-heading text-base italic text-champagne/80"
+            className="mt-3 font-serif text-base italic text-champagne/80"
             {...textEntrance(0.36)}
           >
             {WEDDING.venueHint}

@@ -237,11 +237,11 @@ export function WeddingHero({ reducedMotion = false }: WeddingHeroProps) {
           </motion.p>
 
           <motion.h1
-            className="font-heading text-balance text-[2rem] font-medium leading-[1.12] tracking-wide text-ivory sm:text-6xl md:text-7xl lg:text-8xl"
+            className="font-heading text-balance text-[2.75rem] leading-[1.2] text-ivory sm:text-6xl md:text-7xl lg:text-8xl"
             {...entrance(0.35)}
           >
             <span className="block">{WEDDING.bride}</span>
-            <span className="my-1.5 block font-heading text-xl font-light italic text-champagne sm:my-3 sm:text-3xl md:text-4xl">
+            <span className="my-1 block font-heading text-2xl text-champagne sm:my-2 sm:text-4xl md:text-5xl">
               &amp;
             </span>
             <span className="block">{WEDDING.groom}</span>
@@ -252,7 +252,7 @@ export function WeddingHero({ reducedMotion = false }: WeddingHeroProps) {
           </motion.div>
 
           <motion.p
-            className="mt-5 max-w-xl font-heading text-sm uppercase tracking-[0.16em] text-ivory/85 sm:mt-8 sm:text-lg sm:tracking-[0.22em] sm:text-ivory/80"
+            className="mt-5 max-w-xl font-heading text-xl text-ivory/90 sm:mt-8 sm:text-3xl"
             {...entrance(0.7)}
           >
             {WEDDING.subtitle}
@@ -265,7 +265,7 @@ export function WeddingHero({ reducedMotion = false }: WeddingHeroProps) {
             <span className="text-[0.58rem] uppercase tracking-[0.32em] text-champagne/75 sm:text-[0.65rem] sm:tracking-[0.34em] sm:text-champagne/70">
               {WEDDING.dateLabel}
             </span>
-            <span className="font-heading text-lg text-ivory sm:text-2xl">
+            <span className="font-heading text-2xl text-ivory sm:text-3xl">
               {getWeddingDateLabel(WEDDING)}
             </span>
           </motion.div>

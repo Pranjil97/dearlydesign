@@ -69,7 +69,7 @@ export function Countdown({ reducedMotion = false }: CountdownProps) {
         </motion.p>
 
         <motion.h2
-          className="mt-5 font-heading text-balance text-3xl font-medium tracking-wide text-ivory sm:text-4xl md:text-5xl lg:text-6xl"
+          className="mt-5 font-heading text-balance text-[2.35rem] leading-[1.2] text-ivory sm:text-5xl md:text-6xl"
           {...entrance(0.1)}
         >
           {title}
@@ -131,10 +131,10 @@ export function Countdown({ reducedMotion = false }: CountdownProps) {
             className="mt-12 flex max-w-lg flex-col items-center gap-5"
             {...entrance(0.28)}
           >
-            <p className="font-heading text-lg italic leading-relaxed text-ivory/80 sm:text-xl">
+            <p className="font-serif text-lg italic leading-relaxed text-ivory/80 sm:text-xl">
               {body}
             </p>
-            <p className="font-heading text-2xl tracking-wide text-champagne sm:text-3xl">
+            <p className="font-heading text-3xl text-champagne sm:text-4xl">
               {getCoupleNames(WEDDING)}
             </p>
             <p className="text-[0.65rem] uppercase tracking-[0.3em] text-ivory/55 sm:text-xs">

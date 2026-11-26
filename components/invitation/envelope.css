@@ -51,10 +51,6 @@
   transform-style: preserve-3d;
 }
 
-.envelope-pocket.is-open {
-  overflow: visible;
-}
-
 .envelope-pocket::before {
   content: "";
   position: absolute;
@@ -63,6 +59,7 @@
   border-radius: 0.1rem;
   pointer-events: none;
   opacity: 0.7;
+  z-index: 4;
 }
 
 .envelope-inner-shadow {
@@ -130,23 +127,6 @@
     color-mix(in srgb, var(--burgundy) 80%, var(--wine) 20%),
     var(--wine)
   );
-}
-
-.envelope-card-slot {
-  position: absolute;
-  left: 7%;
-  right: 7%;
-  top: 12%;
-  bottom: 8%;
-  z-index: 3;
-  transform-style: preserve-3d;
-  pointer-events: none;
-  overflow: hidden;
-}
-
-.envelope-card-slot.is-interactive {
-  pointer-events: auto;
-  overflow: visible;
 }
 
 .invitation-card {
